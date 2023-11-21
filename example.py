@@ -54,7 +54,6 @@ def create_datacenter(name):
 # Example usage:
 datacenter_instance = create_datacenter("MyDatacenter")
 
-# Assuming you already have brokerId from somewhere
 broker_id = datacenter_instance.get_broker_id()  
 
 vmlist = []
@@ -79,6 +78,7 @@ vmlist.append(vm2)
 datacenter_instance.set_vms(vmlist)
 
 datacenter_instance.get_details()
+datacenter_instance.get_total_cost()
 
 cloudlet1 = Cloudlet( length=10, pes_number=1, file_size=50, output_size=50)
 cloudlet2 = Cloudlet( length=15, pes_number=2, file_size=100, output_size=100)

@@ -66,6 +66,19 @@ class Datacenter(Entity):
     def get_vm_list(self):
         return self.vm_list
     
+    def get_total_cost(self):
+        print("Datacenter cost: ", self.characteristics.cost)
+        memory_cost = self.characteristics.cost_per_mem * sum(host.ram for host in self.characteristics.host_list)
+        print("Memory cost: ", memory_cost)
+        storage_cost = self.characteristics.cost_per_storage * sum(host.storage for host in self.characteristics.host_list)
+        print("Storage cost: ", storage_cost)
+        bw_cost = self.characteristics.cost_per_bw * sum(host.bw for host in self.characteristics.host_list)
+        print("Bandwidth cost: ", bw_cost)
+        total_cost = self.characteristics.cost + memory_cost + storage_cost + bw_cost
+        print("Total cost: ", total_cost)
+        print()
+
+    
     def get_details(self):
          print(f"Datacenter name: {self.name}\n Number of hosts: {len(self.get_host_list())}\n Number of VMs: {len(self.get_vm_list())}")
          for host in self.get_host_list():
