@@ -80,7 +80,7 @@ class Datacenter(Entity):
 
     
     def get_details(self):
-         print(f"Datacenter name: {self.name}\n Number of hosts: {len(self.get_host_list())}\n Number of VMs: {len(self.get_vm_list())}")
+         print(f"Datacenter name: {self.name}\nNumber of hosts: {len(self.get_host_list())}\nNumber of VMs: {len(self.get_vm_list())}\n")
          for host in self.get_host_list():
             host.get_details()
 
