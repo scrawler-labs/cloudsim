@@ -1,4 +1,4 @@
-from pysimcloud.entities.entity import Entity
+from cloudsim.entities.entity import Entity
 
 class Vm(Entity):
     def __init__(self, broker_id, mips, pes_number, ram, bw, size, vmm):

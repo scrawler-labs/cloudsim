@@ -1,4 +1,4 @@
-from pysimcloud.entities.entity import Entity
+from cloudsim.entities.entity import Entity
 
 class Pe(Entity):
     def __init__(self, mips_rating):

@@ -1,5 +1,5 @@
-from pysimcloud.entities.entity import Entity
-from pysimcloud.entities.broker import Broker
+from cloudsim.entities.entity import Entity
+from cloudsim.entities.broker import Broker
 
 
 class DatacenterCharacteristics:

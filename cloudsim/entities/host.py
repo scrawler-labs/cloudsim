@@ -1,4 +1,4 @@
-from pysimcloud.entities.entity import Entity
+from cloudsim.entities.entity import Entity
 
 class Host(Entity):
     def __init__(self, ram, bw, storage, pe_list):

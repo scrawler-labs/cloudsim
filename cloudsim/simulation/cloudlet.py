@@ -1,7 +1,7 @@
 #simulate cloud load using datacenter and simpy tool
 import simpy
-from pysimcloud.entities.datacenter import Datacenter
-from pysimcloud.scheduler import CloudletScheduler
+from cloudsim.entities.datacenter import Datacenter
+from cloudsim.scheduler import CloudletScheduler
 
 class CloudletExecution:
     def __init__(self, cloudlet_list,datacenter):

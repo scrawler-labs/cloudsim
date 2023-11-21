@@ -1,4 +1,4 @@
-from pysimcloud.entities.entity import Entity
+from cloudsim.entities.entity import Entity
 
 class CloudletScheduler(Entity):
     def __init__(self, env, datacenter):

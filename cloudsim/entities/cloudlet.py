@@ -1,4 +1,4 @@
-from pysimcloud.entities.entity import Entity
+from cloudsim.entities.entity import Entity
 
 class Cloudlet(Entity):
     def __init__(self, length, pes_number, file_size, output_size):
