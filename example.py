@@ -3,13 +3,16 @@ from collections import deque
 from pysimcloud.entities.vm import Vm
 from pysimcloud.entities.host import Host
 from pysimcloud.entities.pe import Pe
+from pysimcloud.entities.cloudlet import Cloudlet
+from pysimcloud.scheduler import CloudletScheduler
+from pysimcloud.simulation.cloudlet import CloudletExecution
 
 def create_datacenter(name):
     # 1. Create a list to store our machine
     host_list = []
 
     # 2. Create PEs and add these into a list.
-    pe_list = [Pe(1000),Pe(1000)]  # Assuming mips value is 1000
+    pe_list = [Pe(1000),Pe(1000),Pe(1000)]  # Assuming mips value is 1000
 
     # 3. Create Host with its id and list of PEs and add them to the list of machines
     ram = 2048  # host memory (MB)
@@ -64,9 +67,10 @@ bw = 2000
 pes_number = 1  # number of cpus
 vmm = "Xen"  # VMM name
 
+
 # create two VMs
-vm1 = Vm(broker_id, mips, pes_number, ram, bw, size, vmm, None)  # Replace None with the appropriate CloudletScheduler
-vm2 = Vm(broker_id, mips * 2, pes_number, ram, bw, size, vmm, None)  # Replace None with the appropriate CloudletScheduler
+vm1 = Vm(broker_id, mips, pes_number, ram, bw, size, vmm)  # Replace None with the appropriate CloudletScheduler
+vm2 = Vm(broker_id, mips * 2, pes_number*2, ram, bw, size, vmm)  # Replace None with the appropriate CloudletScheduler
 
 # add the VMs to the vmList
 vmlist.append(vm1)
@@ -75,3 +79,12 @@ vmlist.append(vm2)
 datacenter_instance.set_vms(vmlist)
 
 datacenter_instance.get_details()
+
+cloudlet1 = Cloudlet( length=10, pes_number=1, file_size=50, output_size=50)
+cloudlet2 = Cloudlet( length=15, pes_number=2, file_size=100, output_size=100)
+cloudlet3 = Cloudlet( length=8, pes_number=1, file_size=30, output_size=30)
+
+cloudlet_list = [cloudlet1, cloudlet2, cloudlet3]
+
+exec=CloudletExecution( cloudlet_list, datacenter_instance)
+exec.execute()
