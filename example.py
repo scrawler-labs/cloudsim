@@ -1,11 +1,11 @@
-from pysimcloud.entities.datacenter import Datacenter, DatacenterCharacteristics
+from cloudsim.entities.datacenter import Datacenter, DatacenterCharacteristics
 from collections import deque
-from pysimcloud.entities.vm import Vm
-from pysimcloud.entities.host import Host
-from pysimcloud.entities.pe import Pe
-from pysimcloud.entities.cloudlet import Cloudlet
-from pysimcloud.scheduler import CloudletScheduler
-from pysimcloud.simulation.cloudlet import CloudletExecution
+from cloudsim.entities.vm import Vm
+from cloudsim.entities.host import Host
+from cloudsim.entities.pe import Pe
+from cloudsim.entities.cloudlet import Cloudlet
+from cloudsim.scheduler import CloudletScheduler
+from cloudsim.simulation.cloudlet import CloudletExecution
 
 def create_datacenter(name):
     # 1. Create a list to store our machine
