@@ -90,3 +90,6 @@ cloudlet_execution.execute()
 
 cloudlet_execution = CloudletExecution("SJF",cloudlet_list, datacenter_instance)
 cloudlet_execution.execute()
+
+cloudlet_execution = CloudletExecution("RoundRobin",cloudlet_list, datacenter_instance)
+cloudlet_execution.execute()

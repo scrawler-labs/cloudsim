@@ -2,6 +2,7 @@
 import simpy
 from cloudsim.schedulers.fcfs import CloudletSchedulerFCFS
 from cloudsim.schedulers.sjf import CloudletSchedulerSJF
+from cloudsim.schedulers.roundrobin import CloudletSchedulerRoundRobin
 
 class CloudletExecution:
     def __init__(self,schedular,cloudlet_list,datacenter):
@@ -12,6 +13,9 @@ class CloudletExecution:
             self.scheduler_instance = CloudletSchedulerFCFS(self.env,datacenter)
         if self.scheduler == "SJF":
             self.scheduler_instance = CloudletSchedulerSJF(self.env,datacenter)
+        if self.scheduler == "RoundRobin":
+            self.scheduler_instance = CloudletSchedulerRoundRobin(self.env,datacenter)
+
 
        
 
