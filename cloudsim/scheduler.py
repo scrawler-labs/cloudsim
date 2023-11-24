@@ -8,10 +8,14 @@ class CloudletScheduler(Entity):
         self.free_vms = [vm for vm in self.vm_list]  # Initially, all VMs are free
         self.running_vms = []
         self.clock_time = 0
+        self.max_utilization = {vm.get_id(): [0,0,0] for vm in self.vm_list}
 
     def schedule_cloudlets(self, cloudlets):
        processes = [self.env.process(self.schedule_cloudlet(cloudlet)) for cloudlet in cloudlets]        
        yield self.env.all_of(processes)
+
+       for vm in self.max_utilization:
+           print(f"\nVM {vm} utilization:\n {self.max_utilization[vm][0] * 100}% PEs\n, {self.max_utilization[vm][1] * 100}% RAM\n, {self.max_utilization[vm][2] *100}% Storage")
 
     def schedule_cloudlet(self, cloudlet):
         # Place the cloudlet on hold until a free VM with enough available resources becomes available
@@ -21,6 +25,7 @@ class CloudletScheduler(Entity):
                 self.free_vms.remove(selected_vm)
                 cloudlet.set_vm(selected_vm)
                 self.running_vms.append(selected_vm)
+                self.max_utilization[selected_vm.get_id()] = max(self.max_utilization[selected_vm.get_id()], self.get_utilization(selected_vm, cloudlet))
                 yield self.env.process(self.execute_cloudlet(cloudlet))
                 break
             else:
@@ -36,6 +41,9 @@ class CloudletScheduler(Entity):
         # As soon as the cloudlet finishes executing, add the VM back to free_vms
         self.free_vms.append(cloudlet.get_vm())
         self.running_vms.remove(cloudlet.get_vm())
+
+    def get_utilization(self, vm, cloudlet):
+        return [cloudlet.pes_number / vm.pes_number, cloudlet.file_size / vm.ram, cloudlet.output_size / vm.size]
 
 
     def get_clock_time(self):
