@@ -4,7 +4,6 @@ from cloudsim.entities.vm import Vm
 from cloudsim.entities.host import Host
 from cloudsim.entities.pe import Pe
 from cloudsim.entities.cloudlet import Cloudlet
-from cloudsim.scheduler import CloudletScheduler
 from cloudsim.simulation.cloudlet import CloudletExecution
 
 def create_datacenter(name):
@@ -86,5 +85,8 @@ cloudlet3 = Cloudlet(length=8, pes_number=1, file_size=30, output_size=30)
 cloudlet_list = [cloudlet1, cloudlet2, cloudlet3]
 
 # Execute the Cloudlets in the datacenter
-cloudlet_execution = CloudletExecution(cloudlet_list, datacenter_instance)
+cloudlet_execution = CloudletExecution("FCFS",cloudlet_list, datacenter_instance)
+cloudlet_execution.execute()
+
+cloudlet_execution = CloudletExecution("SJF",cloudlet_list, datacenter_instance)
 cloudlet_execution.execute()

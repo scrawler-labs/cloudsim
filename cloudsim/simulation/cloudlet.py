@@ -1,15 +1,21 @@
 #simulate cloud load using datacenter and simpy tool
 import simpy
-from cloudsim.entities.datacenter import Datacenter
-from cloudsim.scheduler import CloudletScheduler
+from cloudsim.schedulers.fcfs import CloudletSchedulerFCFS
+from cloudsim.schedulers.sjf import CloudletSchedulerSJF
 
 class CloudletExecution:
-    def __init__(self, cloudlet_list,datacenter):
+    def __init__(self,schedular,cloudlet_list,datacenter):
         self.cloudlet_list = cloudlet_list
+        self.scheduler = schedular
         self.env = simpy.Environment()
-        self.scheduler = CloudletScheduler(self.env,datacenter)
+        if self.scheduler == "FCFS":
+            self.scheduler_instance = CloudletSchedulerFCFS(self.env,datacenter)
+        if self.scheduler == "SJF":
+            self.scheduler_instance = CloudletSchedulerSJF(self.env,datacenter)
+
        
 
     def execute(self):
-        self.env.process(self.scheduler.schedule_cloudlets(self.cloudlet_list))
+        print(f"Using {self.scheduler} scheduler \n")
+        self.env.process(self.scheduler_instance.schedule_cloudlets(self.cloudlet_list))
         self.env.run()
