@@ -1,7 +1,8 @@
 from cloudsim.schedulers.cloudlet_scheduler import CloudletScheduler
+from simpy.events import AnyOf
 
 class CloudletSchedulerRoundRobin(CloudletScheduler):
-    def __init__(self, env, datacenter, time_slice=1):
+    def __init__(self, env, datacenter, time_slice=2):
         super().__init__(env, datacenter)
         self.time_slice = time_slice
         self.total_execution_time = 0
@@ -10,14 +11,20 @@ class CloudletSchedulerRoundRobin(CloudletScheduler):
     def schedule_cloudlets(self, cloudlets):
         remaining_cloudlets = list(cloudlets)
         while remaining_cloudlets:
-            for cloudlet in remaining_cloudlets[:]:
-                yield self.env.process(self.schedule_cloudlet(cloudlet))
-                remaining_cloudlets.remove(cloudlet)
+                batch = remaining_cloudlets[:len(self.vm_list)]  # Number of cloudlets = Number of Hosts
+                remaining_cloudlets = remaining_cloudlets[len(batch):]
+
+                completion_events = [self.env.process(self.schedule_cloudlet(cloudlet)) for cloudlet in batch]
+                yield AnyOf(self.env, completion_events)
+
+                #yield self.env.process(self.schedule_cloudlet(cloudlet))
+                #remaining_cloudlets.remove(cloudlet)
+
+        print(f"\nTotal Execution Time: {self.total_execution_time}")
 
         for vm in self.max_utilization:
             print(f"\nVM {vm} utilization:\n {self.max_utilization[vm][0] * 100}% PEs\n, {self.max_utilization[vm][1] * 100}% RAM\n, {self.max_utilization[vm][2] *100}% Storage")
 
-        print(f"\nTotal Execution Time: {self.total_execution_time}")
 
     def schedule_cloudlet(self, cloudlet):
         while cloudlet.length > 0:

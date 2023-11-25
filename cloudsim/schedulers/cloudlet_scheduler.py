@@ -27,6 +27,8 @@ class CloudletScheduler(Entity):
             else:
                 yield self.env.timeout(1)
 
+        print(f"Total Execution Time: {self.env.now}")
+
     def has_enough_resources(self, vm, cloudlet):
         return vm.pes_number >= cloudlet.pes_number and vm.ram >= cloudlet.file_size and vm.size >= cloudlet.output_size
 
@@ -36,9 +38,10 @@ class CloudletScheduler(Entity):
         yield self.env.timeout(cloudlet.length)
         end_time = self.env.now
         print(f"Cloudlet {cloudlet.cloudlet_id} completes execution on VM {cloudlet.get_vm().get_id()} at {self.env.now}")
-        turnaround_time = end_time - start_time
-        total_execution_time = turnaround_time + cloudlet.length
-        print(f"Total Execution Time: {total_execution_time}, Turnaround Time: {turnaround_time}")
+        execution_time = end_time - start_time
+        wait_time = start_time 
+        turnaround_time = wait_time + execution_time
+        print(f"Cloudlet {cloudlet.cloudlet_id} - Waiting Time: {wait_time}, Turnaround Time: {turnaround_time}")
 
         # As soon as the cloudlet finishes executing, add the VM back to free_vms
         self.free_vms.append(cloudlet.get_vm())

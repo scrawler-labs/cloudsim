@@ -32,9 +32,9 @@ def create_datacenter(name):
     os = "Linux"
     vmm = "Xen"
     time_zone = 10.0
-    cost = 3.0
-    cost_per_mem = 0.05
-    cost_per_storage = 0.001
+    cost = 100.0
+    cost_per_mem = 0.10
+    cost_per_storage = 0.002
     cost_per_bw = 0.0
     storage_list = deque()  # We are not adding SAN devices for now
 
